@@ -13,17 +13,15 @@
       "type": "cutter",
       "action": "remove",
       "args": {
-        "wantedList": ["cn"],
-        "onlyIPType": "ipv4"
+        "wantedList": ["cn"]
       }
     },
     {
-      "type": "text",
+      "type": "clashRuleSet",
       "action": "add",
       "args": {
         "name": "cn",
-        "uri": "https://raw.githubusercontent.com/17mon/china_ip_list/master/china_ip_list.txt",
-        "onlyIPType": "ipv4"
+        "uri": "https://raw.githubusercontent.com/d2184/GeoIP2-CN/release/clash-rule-provider.yaml"
       }
     },
     {
@@ -47,39 +45,6 @@
       }
     },
     {
-      "type": "v2rayGeoIPDat",
-      "action": "output",
-      "args": {
-        "outputName": "geoip-only-cn-private.dat",
-        "wantedList": ["cn", "private"]
-      }
-    },
-    {
-      "type": "v2rayGeoIPDat",
-      "action": "output",
-      "args": {
-        "outputName": "geoip-asn.dat",
-        "wantedList": [
-          "cloudflare",
-          "cloudfront",
-          "facebook",
-          "fastly",
-          "google",
-          "netflix",
-          "telegram",
-          "twitter"
-        ]
-      }
-    },
-    {
-      "type": "v2rayGeoIPDat",
-      "action": "output",
-      "args": {
-        "oneFilePerList": true,
-        "wantedList": ["cn", "private"]
-      }
-    },
-    {
       "type": "maxmindMMDB",
       "action": "output",
       "args": {
@@ -97,35 +62,6 @@
           "twitter"
         ]
       }
-    },
-    {
-      "type": "maxmindMMDB",
-      "action": "output",
-      "args": {
-        "outputName": "Country-only-cn-private.mmdb",
-        "wantedList": ["cn", "private"]
-      }
-    },
-    {
-      "type": "maxmindMMDB",
-      "action": "output",
-      "args": {
-        "outputName": "Country-asn.mmdb",
-        "wantedList": [
-          "cloudflare",
-          "cloudfront",
-          "facebook",
-          "fastly",
-          "google",
-          "netflix",
-          "telegram",
-          "twitter"
-        ]
-      }
-    },
-    {
-      "type": "text",
-      "action": "output"
     }
   ]
 }
