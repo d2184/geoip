@@ -11,12 +11,27 @@ on:
       - "config-example.json"
       - "LICENSE"
       - "README.md"
-      - ".github/dependabot.yml"
+      - '.github/**'
+
+env: 
+  TZ: Asia/Hong_Kong
+
+concurrency: 
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
     steps:
+      - name: Workflow runs delete
+        uses: InfraWay/delete-workflow-runs@v2.1.2
+        with:
+          token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          retain_days: 7
+
       - name: Set up Go 1.x.y
         uses: actions/setup-go@v3
         with:
@@ -68,26 +83,17 @@ jobs:
             $(go env GOPATH)/bin/mmdbverify -file ${name}
           done
 
-      - name: Download GeoLite2
-        env:
-          LICENSE_KEY: ${{ secrets.MAXMIND_GEOLITE2_LICENSE }}
-        run: |
-          curl -L "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-ASN&license_key=${LICENSE_KEY}&suffix=tar.gz" -o GeoLite2-ASN.tar.gz
-          curl -L "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-ASN-CSV&license_key=${LICENSE_KEY}&suffix=zip" -o GeoLite2-ASN-CSV.zip
-          curl -L "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country&license_key=${LICENSE_KEY}&suffix=tar.gz" -o GeoLite2-Country.tar.gz
-          curl -L "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country-CSV&license_key=${LICENSE_KEY}&suffix=zip" -o GeoLite2-Country-CSV.zip
-
       - name: Move files to publish directory
         run: |
           mkdir -p publish
-          mv ./output/dat/*.dat ./output/maxmind/*.mmdb *.gz *.zip ./publish/
+          mv ./output/dat/*.dat ./output/maxmind/*.mmdb ./publish/
 
       - name: Git push assets to "release" branch
         run: |
           cd publish || exit 1
           git init
-          git config --local user.name "github-actions[bot]"
-          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "d2184"
+          git config --local user.email "d2184@users.noreply.github.com"
           git checkout -b release
           git add -A
           git commit -m "${{ env.RELEASE_NAME }}"
