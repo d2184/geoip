@@ -15,6 +15,22 @@
   - `geoip:telegram`（`GEOIP,TELEGRAM`）
   - `geoip:twitter`（`GEOIP,TWITTER`）
 
+## 下载地址
+
+### V2Ray dat 格式路由规则文件
+
+> 适用于 [V2Ray](https://github.com/v2fly/v2ray-core)、[Xray-core](https://github.com/XTLS/Xray-core) 和 [Trojan-Go](https://github.com/p4gefau1t/trojan-go)。
+
+- **geoip.dat**：
+  - [https://github.com/d2184/geoip/raw/release/geoip.dat](https://github.com/d2184/geoip/raw/release/geoip.dat)
+
+### MaxMind mmdb 格式文件
+
+> 适用于 [Clash](https://github.com/Dreamacro/clash) 和 [Leaf](https://github.com/eycorsican/leaf)。
+
+- **Country.mmdb**：
+  - [https://github.com/d2184/geoip/raw/release/Country.mmdb](https://github.com/d2184/geoip/raw/release/Country.mmdb)
+
 ## 参考配置
 
 在 [V2Ray](https://github.com/v2fly/v2ray-core) 中使用本项目 `.dat` 格式文件的参考配置：
@@ -27,11 +43,7 @@
       "outboundTag": "Direct",
       "ip": [
         "geoip:cn",
-        "geoip:private",
-        "ext:cn.dat:cn",
-        "ext:private.dat:private",
-        "ext:geoip-only-cn-private.dat:cn",
-        "ext:geoip-only-cn-private.dat:private"
+        "geoip:private"
       ]
     },
     {
@@ -41,9 +53,7 @@
         "geoip:us",
         "geoip:jp",
         "geoip:facebook",
-        "geoip:telegram",
-        "ext:geoip-asn.dat:facebook",
-        "ext:geoip-asn.dat:telegram"
+        "geoip:telegram"
       ]
     }
   ]
@@ -103,7 +113,7 @@ rules:
 
 ## CLI 功能展示
 
-可通过 `go install -v github.com/Loyalsoldier/geoip@latest` 直接安装 CLI。
+可通过 `go install -v github.com/d2184/geoip@latest` 直接安装 CLI。
 
 ```bash
 $ ./geoip -h
