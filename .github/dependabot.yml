@@ -8,7 +8,7 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
       timezone: "Asia/Shanghai"
       time: "07:00"
     pull-request-branch-name:
@@ -17,7 +17,7 @@ updates:
   - package-ecosystem: "gomod"
     directory: "/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
       timezone: "Asia/Shanghai"
       time: "07:00"
     pull-request-branch-name:
