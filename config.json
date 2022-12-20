@@ -26,11 +26,11 @@
       }
     },
     {
-      "type": "clashRuleSet",
+      "type": "maxmindMMDB",
       "action": "add",
       "args": {
         "name": "cn",
-        "uri": "https://raw.githubusercontent.com/d2184/GeoIP2-CN/release/clash-rule-provider.yaml"
+        "uri": "https://raw.githubusercontent.com/d2184/GeoIP2-CN/release/Country.mmdb"
       }
     },
     {
