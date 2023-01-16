@@ -5,7 +5,7 @@ go 1.19
 require (
 	github.com/maxmind/mmdbwriter v0.0.0-20220830183856-fffdfa44ff0b
 	github.com/oschwald/maxminddb-golang v1.10.0
-	github.com/v2fly/v2ray-core/v5 v5.2.0
+	github.com/v2fly/v2ray-core/v5 v5.2.1
 	go4.org/netipx v0.0.0-20220812043211-3cc044ffd68d
 	google.golang.org/protobuf v1.28.1
 	gopkg.in/yaml.v2 v2.4.0
@@ -21,9 +21,9 @@ require (
 	github.com/pelletier/go-toml v1.9.5 // indirect
 	github.com/pires/go-proxyproto v0.6.2 // indirect
 	go.starlark.net v0.0.0-20220817180228-f738f5508c12 // indirect
-	golang.org/x/crypto v0.1.0 // indirect
-	golang.org/x/net v0.1.0 // indirect
-	golang.org/x/sys v0.1.1-0.20221102194838-fc697a31fa06 // indirect
-	golang.org/x/text v0.4.0 // indirect
+	golang.org/x/crypto v0.4.0 // indirect
+	golang.org/x/net v0.4.0 // indirect
+	golang.org/x/sys v0.3.0 // indirect
+	golang.org/x/text v0.5.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
