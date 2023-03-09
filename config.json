@@ -33,13 +33,6 @@
         "uri": "https://raw.githubusercontent.com/d2184/GeoIP2-CN/release/Country.mmdb"
       }
     },
-    { 
-      "type": "text",
-      "action": "add",
-      "args": {
-        "inputDir": "./data"
-       }
-    },
     {
       "type": "text",
       "action": "add",
@@ -47,6 +40,13 @@
         "name": "telegram",
         "uri": "https://core.telegram.org/resources/cidr.txt"
       }
+    },
+    { 
+      "type": "text",
+      "action": "add",
+      "args": {
+        "inputDir": "./data"
+       }
     },
     {
       "type": "private",
@@ -59,6 +59,22 @@
       "action": "output",
       "args": {
         "outputName": "geoip.dat"
+      }
+    },
+    {
+      "type": "v2rayGeoIPDat",
+      "action": "output",
+      "args": {
+        "outputName": "geoip-only-cn-private.dat",
+        "wantedList": ["cn", "private"]
+      }
+    },
+    {
+      "type": "maxmindMMDB",
+      "action": "output",
+      "args": {
+        "outputName": "Country-only-cn-private.mmdb",
+        "wantedList": ["cn", "private"]
       }
     },
     {
