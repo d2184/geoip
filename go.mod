@@ -3,10 +3,10 @@ module github.com/Loyalsoldier/geoip
 go 1.19
 
 require (
-	github.com/maxmind/mmdbwriter v0.0.0-20220830183856-fffdfa44ff0b
+        github.com/maxmind/mmdbwriter v0.0.0-20230315153935-be21eaf06f90
 	github.com/oschwald/maxminddb-golang v1.10.0
 	github.com/v2fly/v2ray-core/v5 v5.4.1
-	go4.org/netipx v0.0.0-20220812043211-3cc044ffd68d
+	go4.org/netipx v0.0.0-20230303233057-f1b76eb4bb35
 	google.golang.org/protobuf v1.30.0
 	gopkg.in/yaml.v2 v2.4.0
 )
