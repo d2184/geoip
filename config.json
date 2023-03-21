@@ -26,12 +26,19 @@
       }
     },
     {
-      "type": "maxmindMMDB",
+      "type": "text",
       "action": "add",
       "args": {
         "name": "cn",
-        "uri": "https://raw.githubusercontent.com/d2184/GeoIP2-CN/release/Country.mmdb"
+        "uri": "https://raw.githubusercontent.com/d2184/GeoIP2-CN/release/cn.txt"
       }
+    },
+    { 
+      "type": "text",
+      "action": "add",
+      "args": {
+        "inputDir": "./data"
+       }
     },
     {
       "type": "text",
@@ -56,13 +63,6 @@
         "name": "telegram",
         "uri": "https://core.telegram.org/resources/cidr.txt"
       }
-    },
-    { 
-      "type": "text",
-      "action": "add",
-      "args": {
-        "inputDir": "./data"
-       }
     },
     {
       "type": "private",

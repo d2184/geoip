@@ -33,7 +33,7 @@ jobs:
           retain_days: 7
 
       - name: Checkout codebase
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.5.0
         with:
           fetch-depth: 0
 
@@ -41,12 +41,6 @@ jobs:
         uses: actions/setup-go@v4
         with:
           go-version-file: ./go.mod
-
-      - name: Set variables
-        run: |
-          echo "TAG_NAME=$(date +%Y%m%d%H%M)" >> $GITHUB_ENV
-          echo "RELEASE_NAME=$(date +%Y%m%d%H%M)" >> $GITHUB_ENV
-        shell: bash
 
       - name: Fetch lists from ripe.net
         run: |
@@ -94,6 +88,21 @@ jobs:
           git config --local user.email "d2184@users.noreply.github.com"
           git checkout -b release
           git add -A
-          git commit -m "${{ env.RELEASE_NAME }}"
+          git commit -m "Last Updated $(date '+%Y-%m-%d %H:%M:%S')"
           git remote add geoip "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
           git push -f -u geoip release
+
+      - name: Delete current release assets
+        uses: andreaswilli/delete-release-assets-action@v2.0.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: geoip
+          deleteOnlyFromDrafts: false
+
+      - name: Upload files to GitHub release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file_glob: true
+          file: ./publish/*
+          tag: geoip
