@@ -23,6 +23,7 @@
 
 - **geoip.dat**：
   - [https://github.com/d2184/geoip/raw/release/geoip.dat](https://github.com/d2184/geoip/raw/release/geoip.dat)
+  - [https://github.com/d2184/geoip/raw/release/geoip-only-cn-private.dat](https://github.com/d2184/geoip/raw/release/geoip-only-cn-private.dat)
 
 ### MaxMind mmdb 格式文件
 
@@ -30,6 +31,7 @@
 
 - **Country.mmdb**：
   - [https://github.com/d2184/geoip/raw/release/Country.mmdb](https://github.com/d2184/geoip/raw/release/Country.mmdb)
+  - [https://github.com/d2184/geoip/raw/release/Country-only-cn-private.mmdb](https://github.com/d2184/geoip/raw/release/Country-only-cn-private.mmdb)
 
 ## 参考配置
 
