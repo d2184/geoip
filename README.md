@@ -23,6 +23,8 @@
 
 - **geoip.dat**：
   - [https://github.com/d2184/geoip/releases/download/geoip/geoip.dat](https://github.com/d2184/geoip/releases/download/geoip/geoip.dat)
+
+- **geoip-only-cn-private.dat**:
   - [https://github.com/d2184/geoip/releases/download/geoip/geoip-only-cn-private.dat](https://github.com/d2184/geoip/releases/download/geoip/geoip-only-cn-private.dat)
 
 ### MaxMind mmdb 格式文件
@@ -30,7 +32,9 @@
 > 适用于 [Clash](https://github.com/Dreamacro/clash) 和 [Leaf](https://github.com/eycorsican/leaf)。
 
 - **Country.mmdb**：
-  - [https://github.com/d2184/geoip/releases/download/geoip/Country-only-cn-private.mmdb](https://github.com/d2184/geoip/releases/download/geoip/Country.mmdb)
+  - [https://github.com/d2184/geoip/releases/download/geoip/Country.mmdb](https://github.com/d2184/geoip/releases/download/geoip/Country.mmdb)
+
+- **Country-only-cn-private.mmdb**:
   - [https://github.com/d2184/geoip/releases/download/geoip/Country-only-cn-private.mmdb](https://github.com/d2184/geoip/releases/download/geoip/Country-only-cn-private.mmdb)
 
 ## 参考配置
