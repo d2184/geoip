@@ -23,6 +23,8 @@
 
 - **geoip.dat**：
   - [https://github.com/d2184/geoip/releases/download/geoip/geoip.dat](https://github.com/d2184/geoip/releases/download/geoip/geoip.dat)
+
+- **geoip-only-cn-private.dat**:
   - [https://github.com/d2184/geoip/releases/download/geoip/geoip-only-cn-private.dat](https://github.com/d2184/geoip/releases/download/geoip/geoip-only-cn-private.dat)
 
 ### MaxMind mmdb 格式文件
@@ -30,8 +32,20 @@
 > 适用于 [Clash](https://github.com/Dreamacro/clash) 和 [Leaf](https://github.com/eycorsican/leaf)。
 
 - **Country.mmdb**：
-  - [https://github.com/d2184/geoip/releases/download/geoip/Country-only-cn-private.mmdb](https://github.com/d2184/geoip/releases/download/geoip/Country.mmdb)
+  - [https://github.com/d2184/geoip/releases/download/geoip/Country.mmdb](https://github.com/d2184/geoip/releases/download/geoip/Country.mmdb)
+
+- **Country-only-cn-private.mmdb**:
   - [https://github.com/d2184/geoip/releases/download/geoip/Country-only-cn-private.mmdb](https://github.com/d2184/geoip/releases/download/geoip/Country-only-cn-private.mmdb)
+
+### sing-box 格式文件
+
+> 适用于 [sing-box](https://github.com/SagerNet/sing-box)
+
+- **geoip.db**:
+  - [https://github.com/d2184/geoip/raw/release/geoip.db](https://github.com/d2184/geoip/raw/release/geoip.db)
+ 
+- **geoip-cn.db**:
+  - [https://github.com/d2184/geoip/raw/release/geoip-cn.db](https://github.com/d2184/geoip/raw/release/geoip-cn.db)
 
 ## 参考配置
 
@@ -69,6 +83,31 @@ rules:
   - GEOIP,PRIVATE,policy,no-resolve
   - GEOIP,FACEBOOK,policy
   - GEOIP,CN,policy,no-resolve
+```
+
+在[sing-box](https://github.com/SagerNet/sing-box) 中使用本项目 `.db` 格式文件的参考配置:
+
+```json
+{
+  "route": [
+    "rules": [
+      {
+        "geoip": [
+          "telegram",
+          "twitter"
+        ],
+        "outbound": "Proxy"
+      },
+      {
+        "geoip": [
+          "cn",
+          "private"
+        ],
+        "outbound": "direct"
+      }
+    ]
+  ]
+}
 ```
 
 在 [Leaf](https://github.com/eycorsican/leaf) 中使用本项目 `.mmdb` 格式文件的参考配置，查看[官方 README](https://github.com/eycorsican/leaf/blob/master/README.zh.md#geoip)。
