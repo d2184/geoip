@@ -22,16 +22,16 @@
 > 适用于 [V2Ray](https://github.com/v2fly/v2ray-core)、[Xray-core](https://github.com/XTLS/Xray-core) 和 [Trojan-Go](https://github.com/p4gefau1t/trojan-go)。
 
 - **geoip.dat**：
-  - [https://github.com/d2184/geoip/raw/release/geoip.dat](https://github.com/d2184/geoip/raw/release/geoip.dat)
-  - [https://github.com/d2184/geoip/raw/release/geoip-only-cn-private.dat](https://github.com/d2184/geoip/raw/release/geoip-only-cn-private.dat)
+  - [https://github.com/d2184/geoip/releases/download/geoip/geoip.dat](https://github.com/d2184/geoip/releases/download/geoip/geoip.dat)
+  - [https://github.com/d2184/geoip/releases/download/geoip/geoip-only-cn-private.dat](https://github.com/d2184/geoip/releases/download/geoip/geoip-only-cn-private.dat)
 
 ### MaxMind mmdb 格式文件
 
 > 适用于 [Clash](https://github.com/Dreamacro/clash) 和 [Leaf](https://github.com/eycorsican/leaf)。
 
 - **Country.mmdb**：
-  - [https://github.com/d2184/geoip/raw/release/Country.mmdb](https://github.com/d2184/geoip/raw/release/Country.mmdb)
-  - [https://github.com/d2184/geoip/raw/release/Country-only-cn-private.mmdb](https://github.com/d2184/geoip/raw/release/Country-only-cn-private.mmdb)
+  - [https://github.com/d2184/geoip/releases/download/geoip/Country-only-cn-private.mmdb](https://github.com/d2184/geoip/releases/download/geoip/Country.mmdb)
+  - [https://github.com/d2184/geoip/releases/download/geoip/Country-only-cn-private.mmdb](https://github.com/d2184/geoip/releases/download/geoip/Country-only-cn-private.mmdb)
 
 ## 参考配置
 

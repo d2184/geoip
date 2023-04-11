@@ -80,18 +80,6 @@ jobs:
           mkdir -p publish
           mv ./output/dat/*.dat ./output/maxmind/*.mmdb ./publish/
 
-      - name: Git push assets to "release" branch
-        run: |
-          cd publish || exit 1
-          git init
-          git config --local user.name "d2184"
-          git config --local user.email "d2184@users.noreply.github.com"
-          git checkout -b release
-          git add -A
-          git commit -m "Last Updated $(date '+%Y-%m-%d %H:%M:%S')"
-          git remote add geoip "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
-          git push -f -u geoip release
-
       - name: Delete current release assets
         uses: andreaswilli/delete-release-assets-action@v2.0.0
         with:
