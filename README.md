@@ -4,7 +4,7 @@
 
 ## 与官方版 GeoIP 的区别
 
-- 中国大陆 IP地址数据使用 [GeoIP2-CN](https://github.com/d2184/GeoIP2-CN)
+- 中国大陆 IP地址数据融合使用 [gaoyifan/china-operator-ip](https://github.com/gaoyifan/china-operator-ip)和[ispip.clang.cn](https://ispip.clang.cn)
 - 新增类别（方便有特殊需求的用户使用）：
   - `geoip:cloudflare`（`GEOIP,CLOUDFLARE`）
   - `geoip:cloudfront`（`GEOIP,CLOUDFRONT`）
@@ -22,20 +22,20 @@
 > 适用于 [V2Ray](https://github.com/v2fly/v2ray-core)、[Xray-core](https://github.com/XTLS/Xray-core) 和 [Trojan-Go](https://github.com/p4gefau1t/trojan-go)。
 
 - **geoip.dat**：
-  - [https://github.com/d2184/geoip/releases/download/geoip/geoip.dat](https://github.com/d2184/geoip/releases/download/geoip/geoip.dat)
+  - [https://github.com/d2184/geoip/releases/download/latest/geoip.dat](https://github.com/d2184/geoip/releases/download/latest/geoip.dat)
 
 - **geoip-only-cn-private.dat**:
-  - [https://github.com/d2184/geoip/releases/download/geoip/geoip-only-cn-private.dat](https://github.com/d2184/geoip/releases/download/geoip/geoip-only-cn-private.dat)
+  - [https://github.com/d2184/geoip/releases/download/latest/geoip-only-cn-private.dat](https://github.com/d2184/geoip/releases/download/latest/geoip-only-cn-private.dat)
 
 ### MaxMind mmdb 格式文件
 
 > 适用于 [Clash](https://github.com/Dreamacro/clash) 和 [Leaf](https://github.com/eycorsican/leaf)。
 
 - **Country.mmdb**：
-  - [https://github.com/d2184/geoip/releases/download/geoip/Country.mmdb](https://github.com/d2184/geoip/releases/download/geoip/Country.mmdb)
+  - [https://github.com/d2184/geoip/releases/download/latest/Country.mmdb](https://github.com/d2184/geoip/releases/download/latest/Country.mmdb)
 
 - **Country-only-cn-private.mmdb**:
-  - [https://github.com/d2184/geoip/releases/download/geoip/Country-only-cn-private.mmdb](https://github.com/d2184/geoip/releases/download/geoip/Country-only-cn-private.mmdb)
+  - [https://github.com/d2184/geoip/releases/download/latest/Country-only-cn-private.mmdb](https://github.com/d2184/geoip/releases/download/latest/Country-only-cn-private.mmdb)
 
 ## 参考配置
 
