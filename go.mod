@@ -3,7 +3,7 @@ module github.com/Loyalsoldier/geoip
 go 1.20
 
 require (
-	github.com/maxmind/mmdbwriter v0.0.0-20230315153935-be21eaf06f90
+	github.com/maxmind/mmdbwriter v0.0.0-20230519175215-6b0a8bb62899
 	github.com/oschwald/maxminddb-golang v1.10.0
 	github.com/v2fly/v2ray-core/v5 v5.5.0
 	go4.org/netipx v0.0.0-20230303233057-f1b76eb4bb35
@@ -13,17 +13,17 @@ require (
 
 require (
 	github.com/adrg/xdg v0.4.0 // indirect
-	github.com/golang/protobuf v1.5.2 // indirect
+	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/kr/pretty v0.3.1 // indirect
 	github.com/pelletier/go-toml v1.9.5 // indirect
-	github.com/pires/go-proxyproto v0.6.2 // indirect
+	github.com/pires/go-proxyproto v0.7.0 // indirect
 	github.com/quic-go/qtls-go1-19 v0.3.2 // indirect
 	github.com/quic-go/qtls-go1-20 v0.2.2 // indirect
-	github.com/quic-go/quic-go v0.33.0 // indirect
-	go.starlark.net v0.0.0-20220817180228-f738f5508c12 // indirect
-	golang.org/x/crypto v0.6.0 // indirect
-	golang.org/x/net v0.7.0 // indirect
-	golang.org/x/sys v0.5.0 // indirect
-	golang.org/x/text v0.7.0 // indirect
+	github.com/quic-go/quic-go v0.34.0 // indirect
+	go.starlark.net v0.0.0-20230525235612-a134d8f9ddca // indirect
+	golang.org/x/crypto v0.9.0 // indirect
+	golang.org/x/net v0.10.0 // indirect
+	golang.org/x/sys v0.8.0 // indirect
+	golang.org/x/text v0.9.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
