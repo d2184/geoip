@@ -79,6 +79,19 @@ jobs:
         run: |
           mkdir -p publish
           mv ./output/dat/*.dat ./output/maxmind/*.mmdb ./publish/
+          cp -fpPR ./output/text ./publish
+
+      - name: Git push txt files to "release" branch
+        run: |
+          cd publish || exit 1
+          git init --initial-branch=release
+          git config --local user.name "d2184"
+          git config --local user.email "d2184@users.noreply.github.com"
+          git add text
+          git commit -m "Last Updated $(date '+%Y-%m-%d %H:%M:%S')"
+          git remote add geoip "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
+          git push -f -u geoip release
+          rm -rf text
 
       - name: Upload files to GitHub release
         uses: svenstaro/upload-release-action@v2
