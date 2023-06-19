@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/maxmind/mmdbwriter v0.0.0-20230605153824-1949661752e7
-	github.com/oschwald/maxminddb-golang v1.10.0
+	github.com/oschwald/maxminddb-golang v1.11.0
 	github.com/v2fly/v2ray-core/v5 v5.7.0
 	go4.org/netipx v0.0.0-20230303233057-f1b76eb4bb35
 	google.golang.org/protobuf v1.30.0
