@@ -1,9 +1,9 @@
 package main
 
 import (
-	_ "github.com/Loyalsoldier/geoip/plugin/maxmind"
-	_ "github.com/Loyalsoldier/geoip/plugin/plaintext"
-	_ "github.com/Loyalsoldier/geoip/plugin/singbox"
-	_ "github.com/Loyalsoldier/geoip/plugin/special"
-	_ "github.com/Loyalsoldier/geoip/plugin/v2ray"
+	_ "geoip/plugin/maxmind"
+	_ "geoip/plugin/plaintext"
+	_ "geoip/plugin/singbox"
+	_ "geoip/plugin/special"
+	_ "geoip/plugin/v2ray"
 )
