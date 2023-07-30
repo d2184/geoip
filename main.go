@@ -4,12 +4,12 @@ import (
 	"flag"
 	"log"
 
-	"github.com/Loyalsoldier/geoip/lib"
+	"github.com/d2184/geoip/lib"
 )
 
 var (
-	list       = flag.Bool("l", false, "List all available input and output formats")
-	configFile = flag.String("c", "config.json", "URI of the JSON format config file, support both local file path and remote HTTP(S) URL")
+	list       = flag.Bool("list", false, "List all available input and output formats")
+	configFile = flag.String("config", "config.json", "URI of the JSON format config file, support both local file path and remote HTTP(S) URL")
 )
 
 func main() {

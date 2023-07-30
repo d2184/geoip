@@ -13,8 +13,14 @@
       "type": "cutter",
       "action": "remove",
       "args": {
-        "wantedList": ["cn"],
-        "onlyIPType": "ipv4"
+        "wantedList": ["cn"]
+      }
+    },
+    {
+      "type": "text",
+      "action": "add",
+      "args": {
+        "inputDir": "./data"
       }
     },
     {
@@ -22,25 +28,7 @@
       "action": "add",
       "args": {
         "name": "cn",
-        "uri": "https://raw.githubusercontent.com/17mon/china_ip_list/master/china_ip_list.txt",
-        "onlyIPType": "ipv4"
-      }
-    },
-    {
-      "type": "text",
-      "action": "add",
-      "args": {
-        "name": "cn",
-        "uri": "https://raw.githubusercontent.com/gaoyifan/china-operator-ip/ip-lists/china.txt",
-        "onlyIPType": "ipv4"
-      }
-    },
-    {
-      "type": "text",
-      "action": "add",
-      "args": {
-        "name": "cn",
-        "uri": "https://raw.githubusercontent.com/gaoyifan/china-operator-ip/ip-lists/china6.txt",
+        "uri": "https://github.com/fernvenue/chn-cidr-list/raw/master/ipv6.txt",
         "onlyIPType": "ipv6"
       }
     },
@@ -49,7 +37,8 @@
       "action": "add",
       "args": {
         "name": "cloudflare",
-        "uri": "https://www.cloudflare.com/ips-v4"
+        "uri": "https://www.cloudflare.com/ips-v4",
+        "onlyIPType": "ipv4"
       }
     },
     {
@@ -57,7 +46,8 @@
       "action": "add",
       "args": {
         "name": "cloudflare",
-        "uri": "https://www.cloudflare.com/ips-v6"
+        "uri": "https://www.cloudflare.com/ips-v6",
+        "onlyIPType": "ipv6"
       }
     },
     {
@@ -66,13 +56,6 @@
       "args": {
         "name": "telegram",
         "uri": "https://core.telegram.org/resources/cidr.txt"
-      }
-    },
-    {
-      "type": "text",
-      "action": "add",
-      "args": {
-        "inputDir": "./data"
       }
     },
     {
@@ -85,39 +68,46 @@
       "type": "v2rayGeoIPDat",
       "action": "output",
       "args": {
+        "outputName": "geoip-tidy.dat",
+        "wantedList": [
+          "cn",
+          "private",
+          "telegram"
+        ]
+      }
+    },
+    {
+      "type": "v2rayGeoIPDat",
+      "action": "output",
+      "args": {
+        "outputName": "geoip-lite.dat",
+        "wantedList": ["cn", "private"]
+      }
+    },
+    {
+      "type": "v2rayGeoIPDat",
+      "action": "output",
+      "args": {
         "outputName": "geoip.dat"
       }
     },
     {
-      "type": "v2rayGeoIPDat",
+      "type": "maxmindMMDB",
       "action": "output",
       "args": {
-        "outputName": "geoip-only-cn-private.dat",
-        "wantedList": ["cn", "private"]
-      }
-    },
-    {
-      "type": "v2rayGeoIPDat",
-      "action": "output",
-      "args": {
-        "outputName": "geoip-asn.dat",
+        "outputName": "country-tidy.mmdb",
         "wantedList": [
-          "cloudflare",
-          "cloudfront",
-          "facebook",
-          "fastly",
-          "google",
-          "netflix",
-          "telegram",
-          "twitter"
+          "cn", 
+          "private", 
+          "telegram"
         ]
       }
     },
     {
-      "type": "v2rayGeoIPDat",
+      "type": "maxmindMMDB",
       "action": "output",
       "args": {
-        "oneFilePerList": true,
+        "outputName": "country-lite.mmdb",
         "wantedList": ["cn", "private"]
       }
     },
@@ -125,53 +115,8 @@
       "type": "maxmindMMDB",
       "action": "output",
       "args": {
-        "outputName": "Country.mmdb",
-        "overwriteList": [
-          "cn",
-          "private",
-          "cloudflare",
-          "cloudfront",
-          "facebook",
-          "fastly",
-          "google",
-          "netflix",
-          "telegram",
-          "twitter"
-        ]
+        "outputName": "country.mmdb"
       }
-    },
-    {
-      "type": "maxmindMMDB",
-      "action": "output",
-      "args": {
-        "outputName": "Country-only-cn-private.mmdb",
-        "wantedList": ["cn", "private"]
-      }
-    },
-    {
-      "type": "maxmindMMDB",
-      "action": "output",
-      "args": {
-        "outputName": "Country-asn.mmdb",
-        "wantedList": [
-          "cloudflare",
-          "cloudfront",
-          "facebook",
-          "fastly",
-          "google",
-          "netflix",
-          "telegram",
-          "twitter"
-        ]
-      }
-    },
-    {
-      "type": "singboxSRS",
-      "action": "output"
-    },
-    {
-      "type": "text",
-      "action": "output"
     }
   ]
 }

@@ -1,0 +1,105 @@
+name: Build
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "30 23 * * *"
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - ".gitignore"
+      - "config-example.json"
+      - "LICENSE"
+      - "README.md"
+
+env: 
+  TZ: Asia/Shanghai
+
+concurrency: 
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Workflow runs delete
+        uses: Mattraks/delete-workflow-runs@v2
+        with:
+          token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          retain_days: 0
+          keep_minimum_runs: 2
+
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+          check-latest: true
+
+      - name: Get GeoLite2
+        run: |
+          mkdir -p ./geolite2
+          curl -sSL https://github.com/PrxyHunter/GeoLite2/releases/latest/download/GeoLite2-Country-Locations-en.csv -o ./geolite2/GeoLite2-Country-Locations-en.csv
+          curl -sSL https://github.com/PrxyHunter/GeoLite2/releases/latest/download/GeoLite2-Country-Blocks-IPv4.csv -o ./geolite2/GeoLite2-Country-Blocks-IPv4.csv
+          curl -sSL https://github.com/PrxyHunter/GeoLite2/releases/latest/download/GeoLite2-Country-Blocks-IPv6.csv -o ./geolite2/GeoLite2-Country-Blocks-IPv6.csv
+        shell: bash
+
+      - name: Append more CIDRs
+        run: | 
+          mkdir -p data
+          curl -sSL https://github.com/misakaio/chnroutes2/raw/master/chnroutes.txt | grep -v '#' > data/cn
+          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Surge/BiliBili/BiliBili_Resolve.list | grep -E "IP-CIDR,|IP-CIDR6," | sed 's/IP-CIDR,//g; s/IP-CIDR6,//g' > data/bilibili
+          curl -sSL https://www.gstatic.com/ipranges/goog.json | jq --raw-output '.prefixes[].ipv4Prefix,.prefixes[].ipv6Prefix | select(. != null)' > data/google
+          curl -sSL https://www.gstatic.com/ipranges/cloud.json | jq --raw-output '.prefixes[].ipv4Prefix,.prefixes[].ipv6Prefix | select(. != null)' >> data/google
+          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Surge/Netflix/Netflix_Resolve.list | grep -E "IP-CIDR,|IP-CIDR6," | sed 's/IP-CIDR,//g; s/IP-CIDR6,//g' > data/netflix
+          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Surge/Twitter/Twitter_Resolve.list | grep -E "IP-CIDR,|IP-CIDR6," | sed 's/IP-CIDR,//g; s/IP-CIDR6,//g' > data/twitter
+        shell: bash
+
+      - name: Build
+        run: |
+          go run ./ --config=./config.json
+
+      - name: Generate mihomo metadb files
+        if: success()
+        run: |
+          curl -sSL https://github.com/d2184/convert-tools/releases/download/PreRealease-geo/geo-linux-amd64 -o ./geo && chmod +x ./geo
+          
+          mkdir -p ./publish
+          ./geo convert ip -i v2ray -o meta -f ./publish/geoip-tidy.metadb ./output/dat/geoip-tidy.dat
+          ./geo convert ip -i v2ray -o meta -f ./publish/geoip-lite.metadb ./output/dat/geoip-lite.dat
+          ./geo convert ip -i v2ray -o meta -f ./publish/geoip.metadb ./output/dat/geoip.dat
+        shell: bash
+
+      - name: Generate mihomo && sing-box rule-set
+        run: |
+          curl -sSL https://github.com/d2184/convert-tools/releases/download/PreRealease-convert/convert-linux-amd64 -o ./convert && chmod +x ./convert
+
+          mkdir -p ./sing-box
+          ./convert geoip -f ./output/dat/geoip.dat -o ./sing-box -t sing-box
+
+          mkdir -p ./mihomo
+          ./convert geoip -f ./output/dat/geoip.dat -o ./mihomo
+
+          cd ./mihomo && mkdir -p ./ipcidr && mv ./*.list ./*.yaml ./ipcidr/ && cd ..
+        shell: bash
+
+      - name: Publish
+        run: |
+          mv -f ./output/dat/*.dat ./output/maxmind/*.mmdb ./mihomo ./sing-box ./publish/
+          cd publish || exit 1
+          git init --initial-branch=release
+          git config --local user.name "${{ github.actor }}"
+          git config --local user.email "${{ github.actor }}@users.noreply.github.com"
+          git add -A
+          git commit -m "Last Updated $(date '+%Y-%m-%d %H:%M:%S')"
+          git remote add geoip "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
+          git push -f -u geoip release
+        shell: bash

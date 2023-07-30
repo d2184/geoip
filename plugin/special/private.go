@@ -3,7 +3,7 @@ package special
 import (
 	"encoding/json"
 
-	"github.com/Loyalsoldier/geoip/lib"
+	"github.com/d2184/geoip/lib"
 )
 
 const (
