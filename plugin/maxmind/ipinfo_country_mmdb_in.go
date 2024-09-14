@@ -3,7 +3,7 @@ package maxmind
 import (
 	"encoding/json"
 
-	"github.com/Loyalsoldier/geoip/lib"
+	"geoip/lib"
 )
 
 /*
