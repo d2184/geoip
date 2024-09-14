@@ -10,7 +10,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/Loyalsoldier/geoip/lib"
+	"geoip/lib"
 	"github.com/sagernet/sing-box/common/srs"
 )
 
@@ -233,12 +233,12 @@ func (s *SRSIn) generateEntries(name string, reader io.Reader, entries map[strin
 		entry = lib.NewEntry(name)
 	}
 
-	plainRuleSet, err := srs.Read(reader, true)
+	ruleSetCompat, err := srs.Read(reader, true)
 	if err != nil {
 		return err
 	}
 
-	for _, rule := range plainRuleSet.Rules {
+	for _, rule := range ruleSetCompat.Options.Rules {
 		for _, cidrStr := range rule.DefaultOptions.IPCIDR {
 			if err := entry.AddPrefix(cidrStr); err != nil {
 				return err

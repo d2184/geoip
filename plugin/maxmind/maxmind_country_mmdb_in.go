@@ -7,7 +7,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/Loyalsoldier/geoip/lib"
+	"geoip/lib"
 	"github.com/oschwald/geoip2-golang"
 	"github.com/oschwald/maxminddb-golang"
 )
