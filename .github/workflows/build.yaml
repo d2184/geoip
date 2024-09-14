@@ -1,0 +1,87 @@
+name: Build
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "30 23 * * *"
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - ".gitignore"
+      - "config-example.json"
+      - "LICENSE"
+      - "README.md"
+
+env: 
+  TZ: Asia/Shanghai
+
+concurrency: 
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Workflow runs delete
+        uses: Mattraks/delete-workflow-runs@v2
+        with:
+          token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          retain_days: 0
+          keep_minimum_runs: 3
+
+      - name: Checkout repo
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@v6
+        with:
+          go-version: '1.26'
+          check-latest: true
+
+      - name: Get GeoLite2
+        run: |
+          mkdir -p ./geolite2
+          curl -sSL https://github.com/${{ secrets.RESOURCE_REPO }}/releases/latest/download/GeoLite2-Country-Locations-en.csv -o ./geolite2/GeoLite2-Country-Locations-en.csv
+          curl -sSL https://github.com/${{ secrets.RESOURCE_REPO }}/releases/latest/download/GeoLite2-Country-Blocks-IPv4.csv -o ./geolite2/GeoLite2-Country-Blocks-IPv4.csv
+          curl -sSL https://github.com/${{ secrets.RESOURCE_REPO }}/releases/latest/download/GeoLite2-Country-Blocks-IPv6.csv -o ./geolite2/GeoLite2-Country-Blocks-IPv6.csv
+          curl -sSL https://github.com/${{ secrets.RESOURCE_REPO }}/releases/latest/download/GeoLite2-ASN-Blocks-IPv4.csv -o ./geolite2/GeoLite2-ASN-Blocks-IPv4.csv
+          curl -sSL https://github.com/${{ secrets.RESOURCE_REPO }}/releases/latest/download/GeoLite2-ASN-Blocks-IPv6.csv -o ./geolite2/GeoLite2-ASN-Blocks-IPv6.csv
+          curl -sSL https://github.com/${{ secrets.RESOURCE_REPO }}/releases/latest/download/GeoLite2-Country.mmdb -o ./geolite2/GeoLite2-Country.mmdb
+          curl -sSL https://github.com/${{ secrets.RESOURCE_REPO }}/releases/latest/download/GeoLite2-ASN.mmdb -o ./geolite2/GeoLite2-ASN.mmdb
+
+      - name: Append more CIDRs
+        run: | 
+          mkdir -p data
+          curl -sSL https://github.com/misakaio/chnroutes2/raw/master/chnroutes.txt | grep -v '#' > data/cn
+
+      - name: Build
+        run: |
+          go build ./
+          ./geoip convert -c ./config.json
+
+      - name: Generate mihomo metadb files
+        if: success()
+        run: |
+          curl -sSL https://github.com/d2184/convert-tools/releases/download/PreRealease-geo/geo-linux-amd64 -o ./geo && chmod +x ./geo
+
+          ./geo convert ip -i v2ray -o meta -f ./output/geoip-tidy.metadb ./output/geoip-tidy.dat
+          ./geo convert ip -i v2ray -o meta -f ./output/geoip-lite.metadb ./output/geoip-lite.dat
+          ./geo convert ip -i v2ray -o meta -f ./output/geoip.metadb ./output/geoip.dat
+
+      - name: Publish
+        run: |
+          mv ./geolite2/*.mmdb ./output/
+          cd output || exit 1
+          git init --initial-branch=release
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Last Updated $(date '+%Y-%m-%d %H:%M:%S')"
+          git remote add geoip "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
+          git push -f -u geoip release
