@@ -3,7 +3,7 @@ package plaintext
 import (
 	"encoding/json"
 
-	"github.com/Loyalsoldier/geoip/lib"
+	"geoip/lib"
 )
 
 /*

@@ -9,7 +9,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/Loyalsoldier/geoip/lib"
+	"geoip/lib"
 	"google.golang.org/protobuf/proto"
 )
 
