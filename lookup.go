@@ -24,6 +24,7 @@ var supportedInputFormats = map[string]bool{
 	strings.ToLower("dbipCountryMMDB"):       true,
 	strings.ToLower("ipinfoCountryMMDB"):     true,
 	strings.ToLower("maxmindMMDB"):           true,
+	strings.ToLower("metadb"):                true,
 	strings.ToLower("mihomoMRS"):             true,
 	strings.ToLower("singboxSRS"):            true,
 	strings.ToLower("surgeRuleSet"):          true,
@@ -34,7 +35,7 @@ var supportedInputFormats = map[string]bool{
 func init() {
 	rootCmd.AddCommand(lookupCmd)
 
-	lookupCmd.Flags().StringP("format", "f", "", "(Required) The input format. Available formats: text, v2rayGeoIPDat, maxmindMMDB, dbipCountryMMDB, ipinfoCountryMMDB, mihomoMRS, singboxSRS, clashRuleSet, clashRuleSetClassical, surgeRuleSet")
+	lookupCmd.Flags().StringP("format", "f", "", "(Required) The input format. Available formats: text, v2rayGeoIPDat, maxmindMMDB, dbipCountryMMDB, ipinfoCountryMMDB, metadb, mihomoMRS, singboxSRS, clashRuleSet, clashRuleSetClassical, surgeRuleSet")
 	lookupCmd.Flags().StringP("uri", "u", "", "URI of the input file, support both local file path and remote HTTP(S) URL. (Cannot be used with \"dir\" flag)")
 	lookupCmd.Flags().StringP("dir", "d", "", "Path to the input directory. The filename without extension will be as the name of the list. (Cannot be used with \"uri\" flag)")
 	lookupCmd.Flags().StringSliceP("searchlist", "l", []string{}, "The lists to search from, separated by comma")

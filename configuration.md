@@ -24,6 +24,7 @@
 - **maxmindGeoLite2ASNCSV**：MaxMind GeoLite2 ASN CSV 数据格式（`GeoLite2-ASN-CSV.zip`）
 - **maxmindGeoLite2CountryCSV**：MaxMind GeoLite2 country CSV 数据格式（`GeoLite2-Country-CSV.zip`）
 - **maxmindMMDB**：MaxMind GeoLite2 country mmdb 数据格式（`GeoLite2-Country.mmdb`）
+- **metadb**：MetaDB (Meta-geoip0) metadb 数据格式（`geoip.metadb`）
 - **mihomoMRS**：mihomo MRS 数据格式（`geoip-cn.mrs`）
 - **private**：局域网和私有网络 CIDR（例如：`192.168.0.0/16` 和 `127.0.0.0/8`）
 - **singboxSRS**：sing-box SRS 数据格式（`geoip-cn.srs`）
@@ -40,6 +41,7 @@
 - **ipinfoCountryMMDB**：IPInfo country mmdb 数据格式（`country.mmdb`）
 - **lookup**：从指定的列表中查找指定的 IP 或 CIDR
 - **maxmindMMDB**：MaxMind GeoLite2 country mmdb 数据格式（`GeoLite2-Country.mmdb`）
+- **metadb**：MetaDB (Meta-geoip0) metadb 数据格式（`geoip.metadb`）
 - **mihomoMRS**：mihomo MRS 数据格式（`geoip-cn.mrs`）
 - **singboxSRS**：sing-box SRS 数据格式（`geoip-cn.srs`）
 - **stdout**：将纯文本 CIDR 输出到 standard output（例如：`1.0.0.0/24`）
@@ -515,6 +517,60 @@
   "action": "remove",                    // 添加 IP 地址
   "args": {
     "uri": "https://example.com/my.mmdb",
+    "wantedList": ["cn", "us", "jp"],    // 只移除名为 cn、us、jp 这三个类别的 IPv4 地址
+    "onlyIPType": "ipv4"                 // 只移除 IPv4 地址
+  }
+}
+```
+
+### **metadb**
+
+- **type**：（必须）输入格式的名称
+- **action**：（必须）操作类型，值为 `add`（添加 IP 地址）或 `remove`（移除 IP 地址）
+- **args**：（可选）
+  - **uri**：（可选）MetaDB metadb 格式文件路径，可为本地文件路径或远程 `http`、`https` 文件 URL。
+  - **wantedList**：（可选）指定需要的类别/文件。
+  - **onlyIPType**：（可选）只处理的 IP 地址类型，值为 `ipv4` 或 `ipv6`。
+
+> MetaDB 与其他 MMDB 格式（maxmind、dbip、ipinfo）不同：MetaDB 的记录是扁平的字符串或字符串数组，而非结构化的 GeoIP2 对象。当不同列表的 IP 或 CIDR 数据有交集或重叠时，输出端会**合并**重叠前缀的列表，因此同一 IP 前缀可能对应多个类别。
+
+```jsonc
+// 默认使用文件：
+// ./metadb/geoip.metadb
+{
+  "type": "metadb",
+  "action": "add"       // 添加 IP 地址
+}
+```
+
+```jsonc
+{
+  "type": "metadb",
+  "action": "add",       // 添加 IP 地址
+  "args": {
+    "uri": "./metadb/geoip.metadb"
+  }
+}
+```
+
+```jsonc
+{
+  "type": "metadb",
+  "action": "add",                        // 添加 IP 地址
+  "args": {
+    "uri": "https://example.com/geoip.metadb",
+    "wantedList": ["cn", "us", "jp"],    // 只需要名为 cn、us、jp 的类别
+    "onlyIPType": "ipv4"                 // 只添加 IPv4 地址
+  }
+}
+```
+
+```jsonc
+{
+  "type": "metadb",
+  "action": "remove",                    // 移除 IP 地址
+  "args": {
+    "uri": "https://example.com/geoip.metadb",
     "wantedList": ["cn", "us", "jp"],    // 只移除名为 cn、us、jp 这三个类别的 IPv4 地址
     "onlyIPType": "ipv4"                 // 只移除 IPv4 地址
   }
@@ -1382,6 +1438,65 @@
     "excludedList": ["private"],                        // 最终不输出 private 类别
     "overwriteList": ["private" ,"cn", "google"],       // 确保 cn、google 类别最后写入，且 google 比 cn 后写入。但由于 private 存在于 excludedList 中，最终不输出 private 类别
     "sourceMMDBURI": "./geolite2/GeoLite2-Country.mmdb" // 用于补全生成的 MMDB 格式文件额外信息的 Maxmind 官方 country MMDB 格式文件。由于 private、google 类别不属于国家/地区类别，无法补全额外信息。
+  }
+}
+```
+
+### **metadb**
+
+- **type**：（必须）输入格式的名称
+- **action**：（必须）操作类型，值必须为 `output`
+- **args**：（可选）
+  - **outputName**：（可选）输出的文件名
+  - **outputDir**：（可选）输出目录
+  - **onlyIPType**：（可选）输出的 IP 地址类型，值为 `ipv4` 或 `ipv6`
+  - **wantedList**：（可选，数组）指定需要输出的类别
+  - **excludedList**：（可选，数组）指定不需要输出的类别
+
+> MetaDB 与其他 MMDB 格式（maxmind、dbip、ipinfo）不同：当不同列表的 IP 或 CIDR 数据有交集或重叠时，MetaDB 会**合并**（merge）重叠前缀的 country code 列表，而非覆盖。因此无需 `overwriteList` 选项。
+>
+> 例如，IP `192.168.1.1` 同时属于列表 `LAN` 和 `PRIVATE`，MetaDB 输出后查询该 IP 会返回 `["lan", "private"]`，而非仅返回其中一个。
+
+```jsonc
+// 默认输出目录 ./output/metadb，默认文件名 geoip.metadb
+{
+  "type": "metadb",
+  "action": "output"
+}
+```
+
+```jsonc
+{
+  "type": "metadb",
+  "action": "output",
+  "args": {
+    "outputDir": "./output",                      // 输出文件到 output 目录
+    "outputName": "geoip-only-cn-private.metadb", // 输出文件名为 geoip-only-cn-private.metadb
+    "wantedList": ["cn", "private"]               // 只输出 cn、private 类别
+  }
+}
+```
+
+```jsonc
+{
+  "type": "metadb",
+  "action": "output",
+  "args": {
+    "outputDir": "./output",                         // 输出文件到 output 目录
+    "outputName": "geoip-without-cn-private.metadb", // 输出文件名为 geoip-without-cn-private.metadb
+    "excludedList": ["cn", "private"]                // 不输出 cn、private 类别
+  }
+}
+```
+
+```jsonc
+{
+  "type": "metadb",
+  "action": "output",
+  "args": {
+    "outputName": "geoip.metadb",     // 输出文件名为 geoip.metadb
+    "wantedList": ["cn", "telegram"], // 只输出 cn、telegram 类别
+    "onlyIPType": "ipv4"              // 只输出 IPv4 地址
   }
 }
 ```

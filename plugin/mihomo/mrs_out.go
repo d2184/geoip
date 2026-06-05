@@ -22,7 +22,7 @@ const (
 )
 
 var (
-	defaultOutputDir = filepath.Join("./", "output", "mrs")
+	defaultMRSOutputDir = filepath.Join("./", "output", "mrs")
 )
 
 func init() {
@@ -49,7 +49,7 @@ func newMRSOut(action lib.Action, data json.RawMessage) (lib.OutputConverter, er
 	}
 
 	if tmp.OutputDir == "" {
-		tmp.OutputDir = defaultOutputDir
+		tmp.OutputDir = defaultMRSOutputDir
 	}
 
 	return &MRSOut{
