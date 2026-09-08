@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/Loyalsoldier/geoip/lib"
+	"geoip/lib"
 )
 
 var (

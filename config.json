@@ -20,9 +20,7 @@
       "type": "text",
       "action": "add",
       "args": {
-        "name": "cn",
-        "uri": "https://raw.githubusercontent.com/gaoyifan/china-operator-ip/ip-lists/china.txt",
-        "onlyIPType": "ipv4"
+        "inputDir": "./data"
       }
     },
     {
@@ -30,7 +28,7 @@
       "action": "add",
       "args": {
         "name": "cn",
-        "uri": "https://raw.githubusercontent.com/gaoyifan/china-operator-ip/ip-lists/china6.txt",
+        "uri": "https://github.com/fernvenue/chn-cidr-list/raw/master/ipv6.txt",
         "onlyIPType": "ipv6"
       }
     },
@@ -47,7 +45,8 @@
       "action": "add",
       "args": {
         "name": "cloudflare",
-        "uri": "https://www.cloudflare.com/ips-v4"
+        "uri": "https://www.cloudflare.com/ips-v4",
+        "onlyIPType": "ipv4"
       }
     },
     {
@@ -55,7 +54,8 @@
       "action": "add",
       "args": {
         "name": "cloudflare",
-        "uri": "https://www.cloudflare.com/ips-v6"
+        "uri": "https://www.cloudflare.com/ips-v6",
+        "onlyIPType": "ipv6"
       }
     },
     {
@@ -85,27 +85,6 @@
       }
     },
     {
-      "type": "json",
-      "action": "add",
-      "args": {
-        "name": "fastly",
-        "uri": "https://api.fastly.com/public-ip-list",
-        "jsonPath": ["addresses", "ipv6_addresses"]
-      }
-    },
-    {
-      "type": "json",
-      "action": "add",
-      "args": {
-        "name": "cloudfront",
-        "uri": "https://ip-ranges.amazonaws.com/ip-ranges.json",
-        "jsonPath": [
-          "prefixes.#(service==\"CLOUDFRONT\")#.ip_prefix",
-          "ipv6_prefixes.#(service==\"CLOUDFRONT\")#.ipv6_prefix"
-        ]
-      }
-    },
-    {
       "type": "maxmindGeoLite2ASNCSV",
       "action": "add",
       "args": {
@@ -126,8 +105,13 @@
             "AS13335",
             "AS132892"
           ],
-          "facebook": ["AS63293", "AS54115", "AS34825", "AS32934", "AS149642"],
-          "fastly": ["AS895", "AS54113", "AS394192"],
+          "facebook": [
+            "AS63293", 
+            "AS54115", 
+            "AS34825", 
+            "AS32934", 
+            "AS149642"
+          ],
           "google": [
             "AS6432",
             "AS55023",
@@ -173,9 +157,25 @@
             "AS139190",
             "AS139070"
           ],
-          "netflix": ["AS55095", "AS40027", "AS394406", "AS2906"],
-          "telegram": ["AS62041", "AS62014", "AS59930", "AS44907", "AS211157"],
-          "twitter": ["AS63179", "AS54888", "AS35995", "AS13414"]
+          "netflix": [
+            "AS55095", 
+            "AS40027", 
+            "AS394406", 
+            "AS2906"
+          ],
+          "telegram": [
+            "AS62041", 
+            "AS62014", 
+            "AS59930", 
+            "AS44907", 
+            "AS211157"
+          ],
+          "twitter": [
+            "AS63179", 
+            "AS54888", 
+            "AS35995", 
+            "AS13414"
+          ]
         }
       }
     },
@@ -190,15 +190,7 @@
       "action": "output",
       "args": {
         "outputDir": "./output",
-        "outputName": "geoip.dat"
-      }
-    },
-    {
-      "type": "v2rayGeoIPDat",
-      "action": "output",
-      "args": {
-        "outputDir": "./output",
-        "outputName": "geoip-only-cn-private.dat",
+        "outputName": "geoip-tidy.dat",
         "wantedList": ["cn", "private"]
       }
     },
@@ -207,17 +199,11 @@
       "action": "output",
       "args": {
         "outputDir": "./output",
-        "outputName": "geoip-asn.dat",
+        "outputName": "geoip-lite.dat",
         "wantedList": [
-          "cloudflare",
-          "cloudfront",
-          "facebook",
-          "fastly",
-          "google",
-          "netflix",
-          "telegram",
-          "twitter",
-          "tor"
+          "cn",
+          "private",
+          "telegram"
         ]
       }
     },
@@ -226,15 +212,7 @@
       "action": "output",
       "args": {
         "outputDir": "./output",
-        "oneFilePerList": true,
-        "wantedList": ["cn", "private"]
-      }
-    },
-    {
-      "type": "v2rayGeoIPDat",
-      "action": "output",
-      "args": {
-        "oneFilePerList": true
+        "outputName": "geoip.dat"
       }
     },
     {
@@ -242,14 +220,36 @@
       "action": "output",
       "args": {
         "outputDir": "./output",
-        "outputName": "Country.mmdb",
-        "sourceMMDBURI": "./output/GeoLite2-Country.mmdb",
+        "outputName": "country-tidy.mmdb",
+        "sourceMMDBURI": "./geolite2/GeoLite2-Country.mmdb",
+        "wantedList": ["cn", "private"]
+      }
+    },
+    {
+      "type": "maxmindMMDB",
+      "action": "output",
+      "args": {
+        "outputDir": "./output",
+        "outputName": "country-lite.mmdb",
+        "sourceMMDBURI": "./geolite2/GeoLite2-Country.mmdb",
+        "wantedList": [
+          "cn",
+          "private",
+          "telegram"
+        ]
+      }
+    },
+    {
+      "type": "maxmindMMDB",
+      "action": "output",
+      "args": {
+        "outputDir": "./output",
+        "outputName": "country.mmdb",
+        "sourceMMDBURI": "./geolite2/GeoLite2-Country.mmdb",
         "overwriteList": [
           "cn",
           "cloudflare",
-          "cloudfront",
           "facebook",
-          "fastly",
           "google",
           "netflix",
           "telegram",
@@ -260,53 +260,33 @@
       }
     },
     {
-      "type": "maxmindMMDB",
+      "type": "metadb",
       "action": "output",
       "args": {
         "outputDir": "./output",
-        "outputName": "Country-without-asn.mmdb",
-        "sourceMMDBURI": "./output/GeoLite2-Country.mmdb",
-        "overwriteList": ["cn", "private"],
-        "excludedList": [
-          "cloudflare",
-          "cloudfront",
-          "facebook",
-          "fastly",
-          "google",
-          "netflix",
-          "telegram",
-          "twitter",
-          "tor"
-        ]
-      }
-    },
-    {
-      "type": "maxmindMMDB",
-      "action": "output",
-      "args": {
-        "outputDir": "./output",
-        "outputName": "Country-only-cn-private.mmdb",
-        "sourceMMDBURI": "./output/GeoLite2-Country.mmdb",
+        "outputName": "geoip-tidy.metadb",
         "wantedList": ["cn", "private"]
       }
     },
     {
-      "type": "maxmindMMDB",
+      "type": "metadb",
       "action": "output",
       "args": {
         "outputDir": "./output",
-        "outputName": "Country-asn.mmdb",
+        "outputName": "geoip-lite.metadb",
         "wantedList": [
-          "cloudflare",
-          "cloudfront",
-          "facebook",
-          "fastly",
-          "google",
-          "netflix",
-          "telegram",
-          "twitter",
-          "tor"
+          "cn",
+          "private",
+          "telegram"
         ]
+      }
+    },
+    {
+      "type": "metadb",
+      "action": "output",
+      "args": {
+        "outputDir": "./output",
+        "outputName": "geoip.metadb"
       }
     },
     {
@@ -322,35 +302,11 @@
       "action": "output"
     },
     {
-      "type": "text",
-      "action": "output",
-      "args": {
-        "outputDir": "./output/nginx/allow",
-        "outputExtension": ".conf",
-        "addPrefixInLine": "allow ",
-        "addSuffixInLine": ";"
-      }
-    },
-    {
-      "type": "text",
-      "action": "output",
-      "args": {
-        "outputDir": "./output/nginx/deny",
-        "outputExtension": ".conf",
-        "addPrefixInLine": "deny ",
-        "addSuffixInLine": ";"
-      }
-    },
-    {
       "type": "clashRuleSetClassical",
       "action": "output"
     },
     {
       "type": "clashRuleSet",
-      "action": "output"
-    },
-    {
-      "type": "surgeRuleSet",
       "action": "output"
     }
   ]
