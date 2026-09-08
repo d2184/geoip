@@ -183,7 +183,7 @@ const file_geoip_proto_rawDesc = "" +
 	"\fcountry_code\x18\x01 \x01(\tR\vcountryCode\x12,\n" +
 	"\x04cidr\x18\x02 \x03(\v2\x18.geoip.plugin.v2ray.CIDRR\x04cidr\"<\n" +
 	"\tGeoIPList\x12/\n" +
-	"\x05entry\x18\x01 \x03(\v2\x19.geoip.plugin.v2ray.GeoIPR\x05entryB,Z*github.com/Loyalsoldier/geoip/plugin/v2rayb\x06proto3"
+	"\x05entry\x18\x01 \x03(\v2\x19.geoip.plugin.v2ray.GeoIPR\x05entryB\x14Z\x12geoip/plugin/v2rayb\x06proto3"
 
 var (
 	file_geoip_proto_rawDescOnce sync.Once
