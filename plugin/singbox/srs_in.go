@@ -10,7 +10,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/Loyalsoldier/geoip/lib"
+	"geoip/lib"
 	"github.com/sagernet/sing-box/common/srs"
 )
 
