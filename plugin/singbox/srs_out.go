@@ -9,7 +9,8 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/Loyalsoldier/geoip/lib"
+	"geoip/lib"
+
 	"github.com/sagernet/sing-box/common/srs"
 	"github.com/sagernet/sing-box/constant"
 	"github.com/sagernet/sing-box/option"
@@ -233,7 +234,7 @@ func (s *srs_out) writeFile(filename string, ruleset *option.PlainRuleSet) error
 	}
 	defer f.Close()
 
-	err = srs.Write(f, *ruleset, constant.RuleSetVersion1)
+	err = srs.Write(f, *ruleset, constant.RuleSetVersion2)
 	if err != nil {
 		return err
 	}

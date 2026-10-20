@@ -8,19 +8,20 @@ import (
 	"os"
 	"strings"
 
-	"github.com/Loyalsoldier/geoip/lib"
-	"github.com/Loyalsoldier/geoip/plugin/maxmind"
-	"github.com/Loyalsoldier/geoip/plugin/mihomo"
-	"github.com/Loyalsoldier/geoip/plugin/plaintext"
-	"github.com/Loyalsoldier/geoip/plugin/singbox"
-	"github.com/Loyalsoldier/geoip/plugin/special"
-	"github.com/Loyalsoldier/geoip/plugin/v2ray"
+	"geoip/lib"
+	"geoip/plugin/maxmind"
+	"geoip/plugin/mihomo"
+	"geoip/plugin/plaintext"
+	"geoip/plugin/singbox"
+	"geoip/plugin/special"
+	"geoip/plugin/v2ray"
 	"github.com/spf13/cobra"
 )
 
 var supportedInputFormats = map[string]bool{
 	strings.ToLower(v2ray.TypeGeoIPDatIn):                  true,
 	strings.ToLower(mihomo.TypeMRSIn):                      true,
+	strings.ToLower(mihomo.TypeMetaDBIn):                   true,
 	strings.ToLower(singbox.TypeSRSIn):                     true,
 	strings.ToLower(maxmind.TypeGeoLite2CountryMMDBIn):     true,
 	strings.ToLower(maxmind.TypeIPInfoCountryMMDBIn):       true,
@@ -33,6 +34,7 @@ var supportedInputFormats = map[string]bool{
 
 var supportedInputFormatsDisallowedDirFlag = map[string]bool{
 	strings.ToLower(v2ray.TypeGeoIPDatIn):              true,
+	strings.ToLower(mihomo.TypeMetaDBIn):               true,
 	strings.ToLower(maxmind.TypeGeoLite2CountryMMDBIn): true,
 	strings.ToLower(maxmind.TypeIPInfoCountryMMDBIn):   true,
 	strings.ToLower(maxmind.TypeDBIPCountryMMDBIn):     true,
@@ -41,7 +43,7 @@ var supportedInputFormatsDisallowedDirFlag = map[string]bool{
 func init() {
 	rootCmd.AddCommand(lookupCmd)
 
-	lookupCmd.Flags().StringP("format", "f", "", "(Required) The input format. Available formats: text, v2rayGeoIPDat, maxmindMMDB, dbipCountryMMDB, ipinfoCountryMMDB, mihomoMRS, singboxSRS, clashRuleSet, clashRuleSetClassical, surgeRuleSet")
+	lookupCmd.Flags().StringP("format", "f", "", "(Required) The input format. Available formats: text, v2rayGeoIPDat, maxmindMMDB, dbipCountryMMDB, ipinfoCountryMMDB, mihomoMRS, metadb, singboxSRS, clashRuleSet, clashRuleSetClassical, surgeRuleSet")
 	lookupCmd.Flags().StringP("uri", "u", "", "URI of the input file, support both local file path and remote HTTP(S) URL. (Cannot be used with \"dir\" flag)")
 	lookupCmd.Flags().StringP("dir", "d", "", "Path to the input directory. The filename without extension will be as the name of the list. (Cannot be used with \"uri\" flag)")
 	lookupCmd.Flags().StringSliceP("searchlist", "l", []string{}, "The lists to search from, separated by comma")
@@ -203,6 +205,12 @@ func getInputForLookup(format, name, uri, dir string) lib.InputConverter {
 			lib.ActionAdd,
 			mihomo.WithNameAndURI(name, uri),
 			mihomo.WithInputDir(dir),
+		)
+
+	case strings.ToLower(mihomo.TypeMetaDBIn):
+		input, err = mihomo.NewMetaDBIn(
+			lib.ActionAdd,
+			mihomo.WithMetaDBURI(uri),
 		)
 
 	case strings.ToLower(singbox.TypeSRSIn):
