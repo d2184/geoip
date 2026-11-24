@@ -13,13 +13,13 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Loyalsoldier/geoip/lib"
-	"github.com/Loyalsoldier/geoip/plugin/maxmind"
-	"github.com/Loyalsoldier/geoip/plugin/mihomo"
-	"github.com/Loyalsoldier/geoip/plugin/plaintext"
-	"github.com/Loyalsoldier/geoip/plugin/singbox"
-	"github.com/Loyalsoldier/geoip/plugin/special"
-	"github.com/Loyalsoldier/geoip/plugin/v2ray"
+	"geoip/lib"
+	"geoip/plugin/maxmind"
+	"geoip/plugin/mihomo"
+	"geoip/plugin/plaintext"
+	"geoip/plugin/singbox"
+	"geoip/plugin/special"
+	"geoip/plugin/v2ray"
 )
 
 const (
@@ -160,6 +160,7 @@ func TestGetInputForLookup(t *testing.T) {
 		{"ipinfo mmdb", maxmind.TypeIPInfoCountryMMDBIn, "", "file.mmdb", "", maxmind.TypeIPInfoCountryMMDBIn},
 		{"mihomo mrs uri", mihomo.TypeMRSIn, "true", "file.mrs", "", mihomo.TypeMRSIn},
 		{"mihomo mrs dir", mihomo.TypeMRSIn, "", "", dir, mihomo.TypeMRSIn},
+		{"mihomo metadb", mihomo.TypeMetaDBIn, "", "geoip.metadb", "", mihomo.TypeMetaDBIn},
 		{"singbox srs", singbox.TypeSRSIn, "true", "file.srs", "", singbox.TypeSRSIn},
 		{"v2ray dat", v2ray.TypeGeoIPDatIn, "", "geoip.dat", "", v2ray.TypeGeoIPDatIn},
 		{"text", plaintext.TypeTextIn, "true", uri, "", plaintext.TypeTextIn},

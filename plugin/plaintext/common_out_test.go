@@ -6,7 +6,7 @@ import (
 	"slices"
 	"testing"
 
-	"github.com/Loyalsoldier/geoip/lib"
+	"geoip/lib"
 )
 
 func TestGetDefaultOutputDir(t *testing.T) {

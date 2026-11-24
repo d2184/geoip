@@ -13,7 +13,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Loyalsoldier/geoip/lib"
+	"geoip/lib"
+
 	"github.com/klauspost/compress/zstd"
 	"go4.org/netipx"
 )

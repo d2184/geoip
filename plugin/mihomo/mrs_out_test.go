@@ -11,7 +11,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Loyalsoldier/geoip/lib"
+	"geoip/lib"
+
 	"github.com/klauspost/compress/zstd"
 	mihomoP "github.com/metacubex/mihomo/constant/provider"
 	mihomoProvider "github.com/metacubex/mihomo/rules/provider"

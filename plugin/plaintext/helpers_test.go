@@ -4,7 +4,7 @@ import (
 	"slices"
 	"testing"
 
-	"github.com/Loyalsoldier/geoip/lib"
+	"geoip/lib"
 )
 
 // assertCIDRs compares both the length and exact content of two CIDR lists.

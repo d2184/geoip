@@ -9,7 +9,8 @@ import (
 	"testing"
 	"testing/iotest"
 
-	"github.com/Loyalsoldier/geoip/lib"
+	"geoip/lib"
+
 	"github.com/tidwall/gjson"
 )
 

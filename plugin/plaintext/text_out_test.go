@@ -6,7 +6,7 @@ import (
 	"slices"
 	"testing"
 
-	"github.com/Loyalsoldier/geoip/lib"
+	"geoip/lib"
 )
 
 func newTestContainer(t *testing.T, data map[string][]string) lib.Container {

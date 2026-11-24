@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Loyalsoldier/geoip/lib"
+	"geoip/lib"
 )
 
 func TestNewLookup(t *testing.T) {

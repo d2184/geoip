@@ -4,7 +4,7 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/Loyalsoldier/geoip/lib"
+	"geoip/lib"
 )
 
 func TestNewTest(t *testing.T) {

@@ -9,7 +9,7 @@ import (
 	"sort"
 	"testing"
 
-	"github.com/Loyalsoldier/geoip/lib"
+	"geoip/lib"
 )
 
 type failingAddContainer struct {
